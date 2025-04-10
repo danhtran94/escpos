@@ -73,6 +73,34 @@ func (e *Escpos) PrintAndCut() error {
 	return e.dst.Flush()
 }
 
+// pulse the cash drawer
+func (e *Escpos) CashDrawer(pulse uint8, t1, t2 uint16) (int, error) {
+	if pulse > 2 {
+		pulse = 2
+	}
+	if t1 < 50 {
+		t1 = 50
+	}
+	if t1 > 255 {
+		t1 = 255
+	}
+	if t2 < 50 {
+		t2 = 50
+	}
+	if t2 > 255 {
+		t2 = 255
+	}
+	return e.WriteRaw([]byte{esc, 'p', pulse, byte(t1), byte(t2)})
+}
+
+// pulse the cash drawer with a 100ms delay
+func (e *Escpos) CashDrawer100ms(pulse uint8) (int, error) {
+	if pulse > 2 {
+		pulse = 2
+	}
+	return e.WriteRaw([]byte{esc, 'p', pulse, 100, 100})
+}
+
 // WriteRaw write raw bytes to the printer
 func (e *Escpos) WriteRaw(data []byte) (int, error) {
 	if len(data) > 0 {
