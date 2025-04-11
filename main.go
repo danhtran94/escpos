@@ -121,6 +121,11 @@ func (e *Escpos) CodePageSJIS() (int, error) {
 	return e.WriteRaw([]byte{esc, 't', 0x03})
 }
 
+// Select the code page 27
+func (e *Escpos) CodePage27() (int, error) {
+	return e.WriteRaw([]byte{esc, 't', 0x1B})
+}
+
 // WriteRaw write raw bytes to the printer
 func (e *Escpos) WriteRaw(data []byte) (int, error) {
 	if len(data) > 0 {
