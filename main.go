@@ -126,6 +126,11 @@ func (e *Escpos) CodePage27() (int, error) {
 	return e.WriteRaw([]byte{esc, 't', 0x1B})
 }
 
+// Select the code page PC858
+func (e *Escpos) CodePagePC858() (int, error) {
+	return e.WriteRaw([]byte{esc, 't', 0x13})
+}
+
 // WriteRaw write raw bytes to the printer
 func (e *Escpos) WriteRaw(data []byte) (int, error) {
 	if len(data) > 0 {
