@@ -126,6 +126,21 @@ func (e *Escpos) CodePage27() (int, error) {
 	return e.WriteRaw([]byte{esc, 't', 0x1B})
 }
 
+// Select the code page 30
+func (e *Escpos) CodePage30() (int, error) {
+	return e.WriteRaw([]byte{esc, 't', 0x1E})
+}
+
+// Select the code page 31
+func (e *Escpos) CodePage31() (int, error) {
+	return e.WriteRaw([]byte{esc, 't', 0x1F})
+}
+
+// Select the code page 32
+func (e *Escpos) CodePage32() (int, error) {
+	return e.WriteRaw([]byte{esc, 't', 0x20})
+}
+
 // Select the code page PC858
 func (e *Escpos) CodePagePC858() (int, error) {
 	return e.WriteRaw([]byte{esc, 't', 0x13})
