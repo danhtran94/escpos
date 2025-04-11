@@ -29,7 +29,6 @@ const (
 	esc                         byte  = 0x1B
 	gs                          byte  = 0x1D
 	fs                          byte  = 0x1C
-	CodePageVietnamese          byte  = 0x27
 )
 
 type PrinterConfig struct {
@@ -102,9 +101,24 @@ func (e *Escpos) CashDrawer100ms(pulse uint8) (int, error) {
 	return e.WriteRaw([]byte{esc, 'p', pulse, 100, 100})
 }
 
-// Select the Vietnamese code page
-func (e *Escpos) SetVietnamese() (int, error) {
-	return e.WriteRaw([]byte{esc, 't', CodePageVietnamese})
+// Select the code page
+func (e *Escpos) CodePageUTF8() (int, error) {
+	return e.WriteRaw([]byte{esc, 't', 0x00})
+}
+
+// Select the code page
+func (e *Escpos) CodePageGBK() (int, error) {
+	return e.WriteRaw([]byte{esc, 't', 0x01})
+}
+
+// Select the code page
+func (e *Escpos) CodePageWEU() (int, error) {
+	return e.WriteRaw([]byte{esc, 't', 0x02})
+}
+
+// Select the code page
+func (e *Escpos) CodePageSJIS() (int, error) {
+	return e.WriteRaw([]byte{esc, 't', 0x03})
 }
 
 // WriteRaw write raw bytes to the printer
