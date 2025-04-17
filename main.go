@@ -16,6 +16,7 @@ type Style struct {
 	UpsideDown    bool
 	Rotate        bool
 	Justify       uint8
+	DoubleStrike  bool
 }
 
 const (
@@ -38,6 +39,7 @@ type PrinterConfig struct {
 	DisableRotate     bool
 	DisableUpsideDown bool
 	DisableJustify    bool
+	DisableDoubleStrike bool
 }
 
 type Escpos struct {
@@ -206,6 +208,14 @@ func (e *Escpos) Write(data string) (int, error) {
 		}
 	}
 
+	// DoubleStrike
+	if !e.config.DisableDoubleStrike {
+		_, err = e.WriteRaw([]byte{esc, 'G', boolToByte(e.Style.DoubleStrike)})
+		if err != nil {
+			return 0, err
+		}
+	}
+
 	// Width / Height
 	_, err = e.WriteRaw([]byte{gs, '!', ((e.Style.Width - 1) << 4) | (e.Style.Height - 1)})
 	if err != nil {
@@ -275,6 +285,12 @@ func (e *Escpos) Rotate(p bool) *Escpos {
 // Toggles UpsideDown printing
 func (e *Escpos) UpsideDown(p bool) *Escpos {
 	e.Style.UpsideDown = p
+	return e
+}
+
+// Toggles DoubleStrike printing
+func (e *Escpos) DoubleStrike(p bool) *Escpos {
+	e.Style.DoubleStrike = p
 	return e
 }
 
